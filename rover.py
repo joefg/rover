@@ -31,6 +31,9 @@ class rover_update(Command):
         with open(plugins_json) as f:
             plugins = json.load(f)
 
+        updated = []
+        installed = []
+
         dirs = set([f for f in os.listdir(plugins_location) if os.path.isdir(os.path.join(plugins_location, f))])
 
         for plugin in plugins:
@@ -55,6 +58,7 @@ class rover_update(Command):
                                 stdout=open(os.devnull, 'w'),
                                 cwd=plugin_folder
                             )
+                            updated.append(str(plugin))
 
                     else:
                         fetcher = subprocess.call(
@@ -63,6 +67,7 @@ class rover_update(Command):
                             stdout=open(os.devnull, 'w'),
                             cwd=plugins_location
                         )
+                        installed.append(str(plugin))
 
                     scripts_in_repo = set([
                         f for f in os.listdir(plugin_folder) if os.path.isfile(os.path.join(plugin_folder, f)) and '.py' in f[-3:]
@@ -79,6 +84,11 @@ class rover_update(Command):
 
                 except Exception as ex:
                     self.fm.notify(ex.__str__())
+
+                self.fm.notify('Updated: {updated} plugins, Installed: {installed} plugins.'.format(
+                    updated=len(updated),
+                    installed=len(installed)
+                ))
 
 class rover_clean(Command):
     """:rover_clean
