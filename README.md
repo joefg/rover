@@ -2,6 +2,12 @@
 ## a plugin manager for ranger
 
 ## Installation
+### Dependencies
+* `ranger`;
+* `python3`;
+* `git`.
+
+### Setup
 Clone this repository into your `ranger` plugins directory, then run the makefile.
 
 Simply:
@@ -29,3 +35,15 @@ To get started, you'll need a `plugins.json` manifest, in your plugins directory
 ]
 
 There is a command to go straight to this manifest in the plugin: `rover_plugins`.
+
+### Installing Plugins
+To install your plugins, simply run `:rover_update` inside `ranger`.
+
+For this to work, your plugin needs to be distributed as a `git` repository. A good example of this is [ranger-archives](https://github.com/maximtrp/ranger-archives).
+
+This is because this script uses `git` to clone these repositories (along with fetching from upstream).
+
+### Cleaning Plugins
+To purge unused plugins, simply run `:rover_clean` inside `ranger`.
+
+This works by seeing which repositories in the plugins directory don't correspond to repositories listed in `plugins.json`. If there's a directory there that isn't in `plugins.json`, it gets removed.
