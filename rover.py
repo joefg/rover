@@ -80,7 +80,7 @@ class rover_update(Command):
                     for to_copy in list(scripts_in_repo - scripts_in_plugins):
                         if os.path.isfile(os.path.join(plugins_location, to_copy)):
                             os.remove(os.path.join(plugins_location, to_copy))
-                        shutil.copy2(os.path.join(plugin_folder, to_copy), os.path.join(plugins_location, to_copy))
+                        os.symlink(os.path.join(plugin_folder, to_copy), os.path.join(plugins_location, to_copy))
 
                 except Exception as ex:
                     self.fm.notify(ex.__str__())
