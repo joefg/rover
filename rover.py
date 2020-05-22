@@ -119,7 +119,7 @@ class rover_clean(Command):
                     ])
 
                     scripts_in_plugins = set([
-                        f for f in os.listdir(plugins_location) if os.path.isfile(os.path.join(plugins_location, f)) and ('.py' in f[-3:] or '.pyo' in f[-4:])
+                        f for f in os.listdir(plugins_location) if os.path.isfile(os.path.join(plugins_location, f)) and '.py' in f[-3:]
                     ])
 
                     for to_delete in list(scripts_in_repo.intersection(scripts_in_plugins)):
