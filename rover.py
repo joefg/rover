@@ -13,6 +13,8 @@ import json
 from ranger.api.commands import *
 from ranger.core.loader import CommandLoader
 
+ROVER_EXCEPTIONS = {'rover', 'rover.py', '__init__.py'}
+
 class rover_update(Command):
     """:rover_update
 
@@ -77,6 +79,51 @@ class rover_update(Command):
 
                 except Exception as ex:
                     self.fm.notify(ex.__str__())
+
+class rover_clean(Command):
+    """:rover_clean
+
+    Removes all plugins not inside plugins.json
+    """
+    def execute(self):
+        plugins_location = os.path.join(os.path.expanduser('~'), '.config', 'ranger', 'plugins')
+        plugins_json = os.path.join(plugins_location, 'plugins.json')
+
+        if not os.path.isfile(plugins_json):
+            raise Exception("Plugins JSON manifest not found.")
+
+        with open(plugins_json) as f:
+            plugins = json.load(f)
+            plugins = set([p.split('/')[-1] for p in plugins])
+
+        dirs = [f for f in os.listdir(plugins_location) if os.path.isdir(os.path.join(plugins_location, f))]
+        purged = []
+
+        for name in dirs:
+            try:
+                if name not in plugins and name not in ROVER_EXCEPTIONS:
+                    plugin_folder = os.path.join(plugins_location, name)
+
+                    scripts_in_repo = set([
+                        f for f in os.listdir(plugin_folder) if os.path.isfile(os.path.join(plugin_folder, f)) and '.py' in f[-3:]
+                    ])
+
+                    scripts_in_plugins = set([
+                        f for f in os.listdir(plugins_location) if os.path.isfile(os.path.join(plugins_location, f)) and ('.py' in f[-3:] or '.pyo' in f[-4:])
+                    ])
+
+                    for to_delete in list(scripts_in_repo.intersection(scripts_in_plugins)):
+                        if os.path.isfile(os.path.join(plugins_location, to_delete)):
+                            os.remove(os.path.join(plugins_location, to_delete))
+
+                    shutil.rmtree(plugin_folder)
+
+                    purged.append(str(name))
+
+            except Exception as ex:
+                self.fm.notify(ex.__str__())
+
+        self.fm.notify("Removed {length} plugins: {names}".format(length=len(purged), names=purged))
 
 class rover_plugins(Command):
     """:rover_plugins
