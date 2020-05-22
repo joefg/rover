@@ -29,10 +29,12 @@ cp rover/rover.py rover.py
 ### Starting
 To get started, you'll need a `plugins.json` manifest, in your plugins directory. An example looks like this:
 
+```
 [
     "https://github.com/joefg/rover"
 	"https://github.com/maximtrp/ranger-archives"
 ]
+```
 
 There is a command to go straight to this manifest in the plugin: `rover_plugins`.
 
