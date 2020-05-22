@@ -74,3 +74,14 @@ class rover_update(Command):
 
                 except Exception as ex:
                     self.fm.notify(ex.__str__())
+
+class rover_plugins(Command):
+    """:rover_plugins
+
+    Opens your plugins.json, if you have one.
+    """
+
+    def execute(self):
+        plugins_location = os.path.join(os.path.expanduser('~'), '.config', 'ranger', 'plugins')
+        plugins_json = os.path.join(plugins_location, 'plugins.json')
+        self.fm.edit_file(plugins_json)
