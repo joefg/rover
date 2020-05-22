@@ -4,7 +4,6 @@
 ## Installation
 ### Dependencies
 * `ranger`;
-* `python3`;
 * `git`.
 
 ### Setup
@@ -18,11 +17,11 @@ cd rover
 make
 ```
 
-If you don't have `make`, you can just copy the `rover.py` file over into the plugins directory:
+If you don't have `make`, you can just symlink the file over into the plugins directory:
 
 ```
 git clone https://github.com/joefg/rover.git
-cp rover/rover.py rover.py
+ln -s rover/rover.py rover.py
 ```
 
 ## Usage
@@ -31,7 +30,7 @@ To get started, you'll need a `plugins.json` manifest, in your plugins directory
 
 ```
 [
-    "https://github.com/joefg/rover"
+	"https://github.com/joefg/rover",
 	"https://github.com/maximtrp/ranger-archives"
 ]
 ```
