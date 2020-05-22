@@ -23,6 +23,9 @@ class rover_update(Command):
         plugins_location = os.path.join(os.path.expanduser('~'), '.config', 'ranger', 'plugins')
         plugins_json = os.path.join(plugins_location, 'plugins.json')
 
+        if not os.path.isfile(plugins_json):
+            raise Exception("Plugins JSON manifest not found.")
+
         with open(plugins_json) as f:
             plugins = json.load(f)
 
