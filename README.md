@@ -1,12 +1,11 @@
 # rover
-## a plugin manager for ranger
+a plugin manager for ranger
+
+## update 30/08/2020
+I don't really use `ranger` anymore, I moved over to [nnn](https://github.com/jarun/nnn), so this is not likely to ever receive any updates.
+If you do want to make changes to this, feel free to fork it.
 
 ## Installation
-### Dependencies
-* `ranger`;
-* `git`.
-
-### Setup
 Clone this repository into your `ranger` plugins directory, then run the makefile.
 
 Simply:
